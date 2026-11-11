@@ -70,7 +70,7 @@ function Home() {
             </div>
             <div className="detail-row">
               <span className="detail-label">🏫 College</span>
-              <a href="mailto:se23uvse006@mahindrauniversity.edu.in">se23uvse006@mahindrauniversity.edu.in</a>
+              <a href="mailto:se23ucse006@mahindrauniversity.edu.in">se23ucse006@mahindrauniversity.edu.in</a>
             </div>
             <div className="detail-row">
               <span className="detail-label">📱 Phone</span>
