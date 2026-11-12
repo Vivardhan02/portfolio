@@ -1,0 +1,295 @@
+/* ------------------------------------------------------------------
+   Drawing set. One near-white sheet, ink linework, blue for measurement
+   and links, red only for revision markup.
+------------------------------------------------------------------- */
+
+@font-face{font-family:'Barlow Semi Condensed';font-weight:400;font-style:normal;font-display:swap;src:url(fonts/BarlowSemiCondensed-400.woff2) format('woff2')}
+@font-face{font-family:'Barlow Semi Condensed';font-weight:500;font-style:normal;font-display:swap;src:url(fonts/BarlowSemiCondensed-500.woff2) format('woff2')}
+@font-face{font-family:'Barlow Semi Condensed';font-weight:600;font-style:normal;font-display:swap;src:url(fonts/BarlowSemiCondensed-600.woff2) format('woff2')}
+@font-face{font-family:'Barlow Semi Condensed';font-weight:700;font-style:normal;font-display:swap;src:url(fonts/BarlowSemiCondensed-700.woff2) format('woff2')}
+@font-face{font-family:'B612 Mono';font-weight:400;font-style:normal;font-display:swap;src:url(fonts/B612Mono-400.woff2) format('woff2')}
+@font-face{font-family:'B612 Mono';font-weight:700;font-style:normal;font-display:swap;src:url(fonts/B612Mono-700.woff2) format('woff2')}
+
+:root{
+  --desk:#E3E6E1;
+  --sheet:#F7F8F5;
+  --ink:#14171A;
+  --ink-2:#444A51;
+  --hair:#BFC4C9;
+  --hair-strong:#8D949B;
+  --blue:#0057B8;
+  --red:#C8161F;
+  --font:'Barlow Semi Condensed','Arial Narrow',Arial,sans-serif;
+  --mono:'B612 Mono',ui-monospace,Consolas,monospace;
+  --band:28px;
+  --pad:clamp(18px,2vw,30px);
+  --ease:cubic-bezier(.16,1,.3,1);
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{background:var(--desk);scroll-behavior:smooth;scroll-padding-top:14px}
+body{
+  margin:0;
+  font:400 17px/1.55 var(--font);
+  color:var(--ink);
+  background:var(--desk);
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+::selection{background:var(--blue);color:var(--sheet)}
+::-webkit-scrollbar{width:12px}
+::-webkit-scrollbar-track{background:var(--desk)}
+::-webkit-scrollbar-thumb{background:var(--hair-strong);border:3px solid var(--desk)}
+::-webkit-scrollbar-thumb:hover{background:var(--ink-2)}
+[id]{scroll-margin-top:24px}
+
+a{color:var(--blue);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:.22em}
+a:hover{color:var(--sheet);background:var(--blue);text-decoration-color:transparent}
+:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
+.tnum{font-variant-numeric:tabular-nums}
+
+.skip{position:absolute;left:12px;top:-60px;z-index:20;background:var(--ink);color:var(--sheet);padding:.5rem .8rem;text-decoration:none}
+.skip:focus{top:12px}
+.defs{position:absolute;width:0;height:0;overflow:hidden}
+
+/* ---------- Sheet, frame, zone band ---------- */
+.sheet{
+  position:relative;
+  display:flex;
+  max-width:1840px;
+  margin:14px auto;
+  margin-inline:14px;
+  padding:var(--band);
+  background:var(--sheet);
+  border:1px solid var(--ink);
+}
+@media (min-width:1880px){.sheet{margin-inline:auto}}
+#sheet-1{min-height:min(calc(100svh - 28px),1000px)}
+
+.frame{
+  position:relative;
+  flex:1;
+  min-width:0;
+  display:grid;
+  grid-template-columns:repeat(8,minmax(0,1fr));
+  grid-template-rows:var(--rows);
+  border:2px solid var(--ink);
+}
+
+.zones{position:absolute;display:grid;pointer-events:none;font:400 12px/1 var(--mono);color:var(--ink-2)}
+.zones span{display:grid;place-items:center}
+.zt,.zb{left:calc(var(--band) + 2px);right:calc(var(--band) + 2px);height:var(--band);grid-template-columns:repeat(8,1fr)}
+.zt{top:0}.zb{bottom:0}
+.zl,.zr{top:calc(var(--band) + 2px);bottom:calc(var(--band) + 2px);width:var(--band)}
+.zl{left:0}.zr{right:0}
+.zt span+span,.zb span+span{border-left:1px solid var(--ink)}
+.zl span+span,.zr span+span{border-top:1px solid var(--ink)}
+
+/* ---------- Cells ---------- */
+.cell{padding:var(--pad);min-width:0}
+.c1-4{grid-column:1/5}.c5-8{grid-column:5/9}.c1-5{grid-column:1/6}.c6-8{grid-column:6/9}.c1-8{grid-column:1/9}
+.r1{grid-row:1}.r2{grid-row:2}.r3{grid-row:3}.r4{grid-row:4}.r2-3{grid-row:2/4}
+.cell:not(.r1){border-top:1px solid var(--hair)}
+.c5-8,.c6-8{border-left:1px solid var(--hair)}
+
+/* ---------- Type ---------- */
+h1,h2,h3,h4,p,figure,ol,ul,table{margin:0}
+h1{
+  font:600 clamp(3.2rem,min(7vw,11vh),5.75rem)/.95 var(--font);
+  letter-spacing:-.015em;
+}
+.lede{font-size:1.28rem;line-height:1.38;max-width:44ch;margin-top:1rem}
+.sub{color:var(--ink-2);margin-top:.4rem}
+.reach{display:flex;flex-wrap:wrap;align-items:baseline;gap:.3rem 1.5rem;margin-top:1rem}
+.reach a{font-weight:600;padding:.15rem 0}
+.reach-main{font-size:1.2rem;text-decoration-thickness:2px}
+
+.sheet-head h2{font:600 clamp(2.4rem,4.4vw,3.5rem)/1 var(--font);letter-spacing:-.01em}
+.sheet-head p{margin-top:.7rem;max-width:60ch;color:var(--ink-2);font-size:1.12rem}
+.small-h{font:600 .78rem/1.2 var(--font);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2);margin-bottom:.8rem}
+
+.detail h3{font:600 1.8rem/1.1 var(--font);letter-spacing:-.005em}
+.detail h4{font:600 .8rem/1.2 var(--font);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2);margin:2rem 0 .45rem}
+.detail>h4:first-child{margin-top:0}
+.meta{color:var(--ink-2);font-size:.95rem;margin:.35rem 0 1rem}
+.detail p{max-width:62ch;margin-bottom:.85rem}
+.detail p.meta{margin-bottom:1rem}
+.detail strong{font-weight:600}
+
+.detail .scope,.scope{
+  max-width:none;
+  margin-top:1.3rem;
+  padding-top:.6rem;
+  border-top:1px solid var(--ink);
+  font-size:.96rem;
+}
+.scope span{
+  font:600 .74rem/1 var(--font);
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  margin-right:.7em;
+}
+.links{margin-top:.2rem;font-weight:600}
+
+h1,h2,h3{text-wrap:balance}
+.notes{padding-left:1.4rem;margin:1.1rem 0 0}
+.notes li{margin-bottom:.9rem;max-width:62ch}
+.notes li::marker{font-family:var(--mono);font-size:.82em;font-weight:700}
+.gnotes ol{padding-left:1.35rem}
+.gnotes li{max-width:54ch;margin-bottom:.55rem;color:var(--ink-2)}
+.gnotes li::marker{font-family:var(--mono);font-size:.82em;color:var(--ink)}
+.wide-notes li{color:var(--ink)}
+.wide-notes strong{font-weight:600}
+
+/* ---------- Revisions ---------- */
+.revs table{width:100%;border-collapse:collapse;font-size:.97rem}
+.revs caption{text-align:left;font:600 .78rem/1.2 var(--font);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2);padding-bottom:.45rem}
+.revs th,.revs td{padding:.3rem .55rem;border-top:1px solid var(--ink);text-align:left;vertical-align:baseline}
+.revs thead th{font:600 .7rem/1.2 var(--font);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2);border-top:2px solid var(--ink);border-bottom:0}
+.revs tbody tr:last-child th,.revs tbody tr:last-child td{border-bottom:2px solid var(--ink)}
+.revs tbody th{font:700 .88rem/1.4 var(--mono);width:2.6em}
+.revs td:nth-child(2){font:400 .76rem/1.6 var(--mono);white-space:nowrap;color:var(--ink-2);width:5.6em}
+.revs td.see{font:400 .76rem/1.6 var(--mono);white-space:nowrap;color:var(--ink-2);width:4.6em;text-align:right}
+.revs thead th:last-child{text-align:right;white-space:nowrap}
+.revs a{color:var(--ink);text-decoration-color:var(--blue)}
+.revs a:hover{color:var(--sheet)}
+.revs tr.pending td:nth-child(2){color:var(--red)}
+.revs tbody tr{transition:background-color .15s}
+.revs tbody tr:hover{background:rgba(0,87,184,.07)}
+
+/* ---------- Views and drawings ---------- */
+.view{margin:0}
+.view svg{width:100%;height:auto;display:block}
+#sheet-1 .view svg{max-height:36vh;min-height:230px}
+figcaption{display:flex;gap:.9rem;align-items:flex-start;margin-top:.7rem}
+figcaption h2{font:600 1.35rem/1.15 var(--font);margin-bottom:.15rem}
+figcaption p{color:var(--ink-2);font-size:.97rem;max-width:58ch}
+.vtag{flex:none;width:2.1rem;height:2.1rem;border:1.5px solid var(--ink);border-radius:50%;display:grid;place-items:center;font:600 1.05rem/1 var(--font)}
+
+.dwg{width:100%;height:auto;display:block;overflow:visible;margin:.5rem 0 1rem}
+.dwg .obj{fill:none;stroke:var(--ink);stroke-width:2}
+.dwg .thin{fill:none;stroke:var(--ink);stroke-width:1.25}
+.dwg .dash{stroke-dasharray:6 4}
+.dwg .fill-sheet{fill:var(--sheet)}
+.dwg .fill-ink{fill:var(--ink)}
+.dwg .hatch-fill{fill:url(#hatch)}
+.dwg .hollow{fill:var(--sheet)}
+.dwg .ext{stroke:var(--blue);stroke-width:1}
+.dwg .proj{stroke:var(--blue);stroke-width:1;stroke-dasharray:4 4}
+.dwg .dim{fill:none;stroke:var(--blue);stroke-width:1.25;marker-start:url(#arr-blue);marker-end:url(#arr-blue)}
+.dwg .dim-t{fill:var(--blue);font:600 28px var(--font);paint-order:stroke;stroke:var(--sheet);stroke-width:10px;stroke-linejoin:round}
+.dwg .dim-t.big{font-size:34px;font-weight:700}
+.dwg .val{font:600 20px var(--font);fill:var(--ink);font-variant-numeric:tabular-nums}
+.dwg .val-b{font:600 20px var(--font);fill:var(--blue);font-variant-numeric:tabular-nums}
+.dwg .lab{font:500 16px var(--font);fill:var(--ink)}
+.dwg .lab.sm{font-size:14.5px}
+.dwg .lab-2{fill:var(--ink-2)}
+.dwg .c{text-anchor:middle}
+.dwg .on-ink{fill:var(--sheet)}
+.dwg .on-phone{display:none}
+.dwg .knock{paint-order:stroke;stroke:var(--sheet);stroke-width:6px;stroke-linejoin:round}
+.dwg .stem{stroke:var(--hair-strong);stroke-width:1;stroke-dasharray:3 3}
+.dwg .leader{fill:none;stroke:var(--ink);stroke-width:1;marker-end:url(#arr-ink)}
+.dwg .arr{marker-end:url(#arr-ink)}
+.dwg .ticks line{stroke:var(--ink);stroke-width:1.25}
+
+/* ---------- Title block ---------- */
+.tbwrap{display:flex;align-items:flex-end}
+.tb{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:1px;
+  width:100%;
+  background:var(--ink);
+  border:2px solid var(--ink);
+}
+.tb>*{background:var(--sheet);padding:.4rem .65rem .5rem;min-width:0}
+.tb-mark{grid-column:1;grid-row:1/3;display:grid;place-items:center;font:700 2.3rem/1 var(--font);letter-spacing:.02em}
+.tb-title{grid-column:2/5;grid-row:1}
+.tb-drawn{grid-column:2/4;grid-row:2}
+.tb-no{grid-column:4;grid-row:2}
+.tb-role{grid-column:1/3;grid-row:3}
+.tb-sheet{grid-column:3;grid-row:3}
+.tb-issued{grid-column:4;grid-row:3}
+.tb-index{grid-column:1/5;grid-row:4}
+.tb-c span{display:block;font:600 .7rem/1.3 var(--font);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2)}
+.tb-c strong{display:block;font:600 1.05rem/1.25 var(--font)}
+.tb-title strong{font-size:1.4rem}
+.tb .tnum{font-family:var(--mono);font-weight:700;font-size:.9rem}
+.tb-index ul{display:flex;flex-wrap:wrap;gap:0 1.3rem;list-style:none;margin:.1rem 0 0;padding:0}
+.tb-index a{display:inline-block;padding:.3rem 0;font-weight:600;color:var(--ink);text-decoration:none;border-bottom:2px solid transparent}
+.tb-index a:hover{background:transparent;color:var(--blue);border-bottom-color:var(--blue)}
+.tb-index a[aria-current]{color:var(--blue);border-bottom-color:var(--blue)}
+
+/* ---------- Sheet 4 ---------- */
+.contact h3{font:600 2rem/1.1 var(--font)}
+.contact p{margin-top:.4rem;color:var(--ink-2)}
+.mail{display:inline-block;margin:.6rem 0 1.1rem;padding:.15rem 0;font:600 clamp(1.7rem,3vw,2.5rem)/1.1 var(--font);text-decoration-thickness:2px;overflow-wrap:anywhere}
+.contact-list{list-style:none;padding:0;display:grid;gap:.45rem}
+.contact-list a{font-size:1.12rem;font-weight:500}
+.endmark{display:flex;flex-direction:column;justify-content:flex-end;gap:.4rem;color:var(--ink-2)}
+
+/* ---------- Revision cloud ---------- */
+.cloud{position:absolute;pointer-events:none;overflow:visible;z-index:2}
+.cloud path.cl{fill:none;stroke:var(--red);stroke-width:2;stroke-linejoin:round}
+.cloud .tag-tri{fill:var(--sheet);stroke:var(--red);stroke-width:1.6}
+.cloud .tag-t{fill:var(--red);font:700 12px var(--mono);text-anchor:middle}
+.js .cloud.draw path.cl{stroke-dasharray:1;stroke-dashoffset:1;animation:cloud-draw .9s var(--ease) forwards}
+@keyframes cloud-draw{to{stroke-dashoffset:0}}
+
+@media (max-width:960px){.cloud g{display:none}}
+
+/* Drawings that do not fit a phone become a pannable sheet at true size */
+.pan-hint{display:none}
+@media (max-width:600px){
+  .dwg-scroll{overflow-x:auto;margin:.5rem -16px .3rem;padding:0 16px;scrollbar-width:thin}
+  .dwg-scroll>svg{width:520px;min-width:520px;max-width:none;margin:0}
+  .dwg-scroll:focus-visible{outline-offset:-2px}
+  .pan-hint{display:block;margin:0 0 1rem;font-size:.78rem;color:var(--ink-2);letter-spacing:.02em}
+  /* the two lead views have the room to carry larger lettering */
+  .view .dwg .lab{font-size:24px}
+  .view .dwg .val,.view .dwg .val-b{font-size:26px}
+  .dwg .on-desk{display:none}
+  .dwg .on-phone{display:inline}
+  .view .dwg .ax{transform:translateY(16px)}
+  .view .dwg .src{transform:translateY(10px)}
+  .view .dwg{margin-bottom:1.1rem}
+}
+
+/* ---------- The one authored moment: bars grow, dimensions follow ---------- */
+.js .bar{transform-box:fill-box;transform-origin:0 50%;transform:scaleX(0);transition:transform 1.1s var(--ease)}
+.js .fade{opacity:0;transition:opacity .6s ease-out .6s}
+.js .is-drawn .bar{transform:none}
+.js .is-drawn .fade{opacity:1}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .js .bar,.js .fade{transition:none;transform:none;opacity:1}
+  .js .cloud.draw path.cl{animation:none;stroke-dasharray:none}
+}
+
+/* ---------- Narrow screens: the sheet becomes one column ---------- */
+@media (max-width:960px){
+  :root{--band:0px}
+  html{scroll-padding-top:8px}
+  .sheet{margin:8px;padding:0}
+  .zones{display:none}
+  .frame{display:block}
+  .cell{border-left:0!important;padding:20px 16px}
+  .cell:not(.r1){border-top:1px solid var(--hair)}
+  #sheet-1{min-height:0}
+  #sheet-1 .view svg{max-height:none;min-height:0}
+  h1{font-size:clamp(3rem,15vw,4.5rem)}
+  .tbwrap{display:block}
+  .detail h3{font-size:1.6rem}
+  .revs th,.revs td{padding:.32rem .4rem}
+  .tb-mark{font-size:1.9rem}
+  .tb .tnum{font-size:.78rem;white-space:nowrap}
+  figcaption h2{font-size:1.25rem}
+}
+
+@media print{
+  html,body{background:#fff}
+  .sheet{break-after:page;margin:0;border:0}
+  .js .bar,.js .fade{transform:none;opacity:1;transition:none}
+}
